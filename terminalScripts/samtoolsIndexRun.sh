@@ -5,5 +5,5 @@
 
 for file in "$@"
 do
-/Users/soumyajauhari/Desktop/srcTools/samtools/samtools index -b $file
+samtools index -b $file
 done

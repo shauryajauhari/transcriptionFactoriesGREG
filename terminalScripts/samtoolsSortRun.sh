@@ -14,7 +14,7 @@ folder=$(dirname "${file}")
 BAMfile=`basename $file .bam`
 
 ## Execute samtools sort command. 
-/Users/soumyajauhari/Desktop/srcTools/samtools/samtools sort $file -o ${folder}/$BAMfile'.sorted'.bam
+samtools sort $file -o ${folder}/$BAMfile'.sorted'.bam
 
 ## Remove original file for space optimization.
 rm ${folder}/$BAMfile'.bam'
