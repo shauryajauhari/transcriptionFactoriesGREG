@@ -4,8 +4,7 @@
 folder=$(dirname "${1}")
 
 ## Running script
-multiBamSummary bins --bamfiles \
-$1 \
+multiBamSummary bins --bamfiles ${1}/*.bam \
 --binSize 2000 \
--out ${folder}/readCounts.npz \
---outRawCounts ${folder}/readCounts.tab
+-out ${1}/readCounts.npz \
+--outRawCounts ${1}/readCounts.tab
