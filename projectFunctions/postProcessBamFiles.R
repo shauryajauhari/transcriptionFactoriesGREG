@@ -31,6 +31,11 @@ selectAvgReads <- lapply(avgReads, function(d){
   subset(d, select = c("X..chr.", "X.start.", "X.end.", "rowMeans(avgDf[, -c(1:3)])"))
 })
 
+
+## Here we diverge. 
+
+
+  # (i) For each cell-type.
   # Merge all dataframes first and then remove the "chr", "start", and "end" columns.
 
 install.packages("plyr")
@@ -53,5 +58,33 @@ normAvgReads <- as.data.frame(sapply(combinedAvgReads, bpmNormalize))
   # Save file and write as output.
 
 write.table(normAvgReads, file = paste0("./GREG/", cell, "/normalizedReads.txt") , sep = "\t", row.names = FALSE)
+
+
+ # (ii) For each feature
+
+individScores <- selectAvgReads
+
+for (i in 1:length(individScores))
+  {
+    # BPM Normalize.
+    individScores[[i]]$normReads <- bpmNormalize(individScores[[i]]$`rowMeans(avgDf[, -c(1:3)])`)
+  
+    # 1-index the BED file
+    individScores[[i]][2] <- individScores[[i]][2] + 1
+  
+    # Remove raw read counts 
+    individScores[[i]][4] <- c()
+  
+  # Save and write the respective bedGraph file.
+  
+  write.table(individScores[[i]],
+              file = paste0("./GREG/", cell, "/", names(individScores[i]), "/", "normalizedReads.bedGraph"),
+              sep = "\t",
+              quote = FALSE,
+              row.names = FALSE,
+              col.names = FALSE)
+  
+  }
 }
+
 
