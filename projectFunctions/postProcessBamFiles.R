@@ -42,10 +42,13 @@ postProcessBamFiles <- function(cell)
 
   combinedAvgReads <- join_all(selectAvgReads, by=c("X..chr.", "X.start.", "X.end."), type='left')
 
-  # Since we no longer need the bins' attributes, we omit them here. Now we're left with the read counts for
-  # all features, against each given feature.
+  # Since we no longer need the bins' attributes, we omit them here. However, we'll save these intervals for later use.
+  # Now we're left with the read counts for all features, against each given feature.
 
-  combinedAvgReads <- combinedAvgReads[,-c(1:3)]
+  binsRegions <- combinedAvgReads[, c(1:3)]
+  binsRegions$X.start. <- binsRegions$X.start. + 1 # 1-Index UCSC format
+  
+  combinedAvgReads <- combinedAvgReads[, -c(1:3)]
   colnames(combinedAvgReads) <- names(dataCovFiles)
 
   # Replacing NAs induced by combining dataframes by 0.
@@ -57,32 +60,32 @@ postProcessBamFiles <- function(cell)
   # Save file and write as output.
 
   write.table(normAvgReads, file = paste0("./GREG/", cell, "/normalizedReads.txt") , sep = "\t", row.names = FALSE)
+  write.table(binsRegions, file = paste0("./GREG/", cell, "/binsRegions.txt") , sep = "\t", row.names = FALSE)
 
 
  # (ii) For each feature
 
-  individScores <- selectAvgReads
+   individScores <- selectAvgReads
 
-  for (i in 1:length(individScores))
-    {
-      # BPM Normalize.
-      individScores[[i]]$normReads <- bpmNormalize(individScores[[i]]$`rowMeans(avgDf[, -c(1:3)])`)
-  
-      # 1-index the BED file
-      individScores[[i]][2] <- individScores[[i]][2] + 1
-  
-      # Remove raw read counts 
-      individScores[[i]][4] <- c()
-  
+   for (i in 1:length(individScores))
+     {
+       # BPM Normalize.
+       individScores[[i]]$normReads <- bpmNormalize(individScores[[i]]$`rowMeans(avgDf[, -c(1:3)])`)
+
+       # 1-index the BED file
+       individScores[[i]][2] <- individScores[[i]][2] + 1
+
+       # Remove raw read counts
+       individScores[[i]][4] <- c()
+
       # Save and write the respective bedGraph file.
-  
-      write.table(individScores[[i]],
-                  file = paste0("./GREG/", cell, "/", names(individScores[i]), "/", "normalizedReads.bedGraph"),
+
+       write.table(individScores[[i]],
+                   file = paste0("./GREG/", cell, "/", names(individScores[i]), "/", "normalizedReads.bedGraph"),
                   sep = "\t",
                   quote = FALSE,
                   row.names = FALSE,
                   col.names = FALSE)
-  
     }
 }
 
