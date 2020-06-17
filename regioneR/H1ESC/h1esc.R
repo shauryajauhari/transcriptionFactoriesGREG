@@ -1,5 +1,4 @@
 
-
 files <<- list.files("./results/H1ESC/LR-hubs/", pattern = "\\.bed$") # Extracting BED files from the input directory.
 files <<- substr(files,1,nchar(files)-4) # Clipping file extension to retrieve sample names only.
 
@@ -34,7 +33,7 @@ h3k36me3 <- read.table("./GREG/H1_hESC/H3K36me3/normalizedReads.bedGraph.bedClip
 rad21 <- read.table("./GREG/H1_hESC/RAD21/normalizedReads.bedGraph.bedClipped.sorted")
 rnapol2 <- read.table("./GREG/H1_hESC/RNAPol2/normalizedReads.bedGraph.bedClipped.sorted")
 yy1 <- read.table("./GREG/H1_hESC/YY1/normalizedReads.bedGraph.bedClipped.sorted")
-rnaseq <- read.table("./GREG/H1_hESC/YY1/normalizedReads.bedGraph.bedClipped.sorted")
+rnaseq <- read.table("./GREG/H1_hESC/RNA-Seq/normalizedReads.bedGraph.bedClipped.sorted")
 
 
 ## regioneR
