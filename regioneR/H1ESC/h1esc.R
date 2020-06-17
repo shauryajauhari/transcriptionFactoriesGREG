@@ -50,59 +50,46 @@ plot(lz2)
 
 
 pt1 <- overlapPermTest(A = ctcf, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 pt2 <- overlapPermTest(A = ep300, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 pt3 <- overlapPermTest(A = h3k4me1, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 pt4 <- overlapPermTest(A = h3k4me2, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 
 pt5<- overlapPermTest(A = h3k4me3, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 
 pt6<- overlapPermTest(A = h3k9ac, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 
 pt7 <- overlapPermTest(A = h3k9me3, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 
 pt8 <- overlapPermTest(A = h3k27me3, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 pt9 <- overlapPermTest(A = h3k36me3, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 
 pt10 <- overlapPermTest(A = rad21, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 pt11<- overlapPermTest(A = rnapol2, B = LRregionsAll, 
-                        ntimes = 100, genome = "hg19", 
-                        count.once = TRUE) ## with coverage values
+                        ntimes = 100, count.once = TRUE) ## with coverage values
 
 pt12 <- overlapPermTest(A = yy1, B = LRregionsAll, 
-                       ntimes = 100, genome = "hg19", 
-                       count.once = TRUE) ## with coverage values
+                       ntimes = 100, count.once = TRUE) ## with coverage values
 
 
 pt13 <- overlapPermTest(A = rnaseq, B = LRregionsAll, 
-                        ntimes = 100, genome = "hg19", 
-                        count.once = TRUE) ## with coverage values
+                        ntimes = 100, count.once = TRUE) ## with coverage values
