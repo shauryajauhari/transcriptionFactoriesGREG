@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Session genome="hg38" hasGeneTrack="true" hasSequenceTrack="true" locus="chr1:10-248956422" version="8">
+    <Resources>
+        <Resource path="results/A549/LR-hubs/LD239.bed"/>
+        <Resource path="results/A549/LR-hubs/LD1338.bed"/>
+        <Resource path="results/A549/LR-hubs/LD709.bed"/>
+        <Resource path="GREG/A549/CTCF/normalizedReads.bedGraph.bedClipped.sorted.bw.lift2hg38.bw"/>
+        <Resource path="GREG/A549/EP300/normalizedReads.bedGraph.bedClipped.sorted.bw.lift2hg38.bw"/>
+        <Resource path="results/A549/LR-hubs/LD790.bed"/>
+        <Resource path="results/A549/LR-hubs/LD938.bed"/>
+        <Resource path="results/A549/LR-hubs/LD1222.bed"/>
+        <Resource path="results/A549/LR-hubs/LD667.bed"/>
+    </Resources>
+    <Panel height="384" name="DataPanel" width="1209">
+        <Track altColor="0,0,178" attributeKey="normalizedReads.bedGraph.bedClipped.sorted.bw.lift2hg38.bw" autoScale="true" clazz="org.broad.igv.track.DataSourceTrack" color="255,51,51" fontSize="10" height="182" id="/Users/mei/Desktop/transcriptionFactoriesGREG/GREG/A549/CTCF/normalizedReads.bedGraph.bedClipped.sorted.bw.lift2hg38.bw" name="CTCF" renderer="BAR_CHART" visible="true" windowFunction="mean">
+            <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="3.162652" minimum="0.0" type="LINEAR"/>
+        </Track>
+        <Track altColor="0,0,178" attributeKey="normalizedReads.bedGraph.bedClipped.sorted.bw.lift2hg38.bw" autoScale="true" clazz="org.broad.igv.track.DataSourceTrack" color="0,0,178" fontSize="10" height="182" id="/Users/mei/Desktop/transcriptionFactoriesGREG/GREG/A549/EP300/normalizedReads.bedGraph.bedClipped.sorted.bw.lift2hg38.bw" name="EP300" renderer="BAR_CHART" visible="true" windowFunction="mean">
+            <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="3.5530913" minimum="0.0" type="LINEAR"/>
+        </Track>
+    </Panel>
+    <Panel height="735" name="FeaturePanel" width="1209">
+        <Track attributeKey="Reference sequence" clazz="org.broad.igv.track.SequenceTrack" fontSize="10" height="79" id="Reference sequence" name="Reference sequence" visible="true"/>
+        <Track attributeKey="Gene" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;459.0;255,255,255;0,0,178" fontSize="10" height="79" id="hg38_genes" name="Gene" visible="true"/>
+        <Track attributeKey="LD239.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;4.0;255,255,255;0,0,178" fontSize="10" height="80" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD239.bed" name="LD239.bed" visible="true"/>
+        <Track attributeKey="LD667.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;4.0;255,255,255;0,0,178" fontSize="10" height="79" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD667.bed" name="LD667.bed" visible="true"/>
+        <Track attributeKey="LD709.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;2.0;255,255,255;0,0,178" fontSize="10" height="80" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD709.bed" name="LD709.bed" visible="true"/>
+        <Track attributeKey="LD790.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;2.0;255,255,255;0,0,178" fontSize="10" height="79" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD790.bed" name="LD790.bed" visible="true"/>
+        <Track attributeKey="LD938.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;2.0;255,255,255;0,0,178" fontSize="10" height="80" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD938.bed" name="LD938.bed" visible="true"/>
+        <Track attributeKey="LD1222.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;4.0;255,255,255;0,0,178" fontSize="10" height="79" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD1222.bed" name="LD1222.bed" visible="true"/>
+        <Track attributeKey="LD1338.bed" clazz="org.broad.igv.track.FeatureTrack" color="0,0,178" colorScale="ContinuousColorScale;0.0;4.0;255,255,255;0,0,178" fontSize="10" height="80" id="/Users/mei/Desktop/transcriptionFactoriesGREG/results/A549/LR-hubs/LD1338.bed" name="LD1338.bed" visible="true"/>
+    </Panel>
+    <PanelLayout dividerFractions="0.3428063943161634"/>
+    <HiddenAttributes>
+        <Attribute name="DATA FILE"/>
+        <Attribute name="DATA TYPE"/>
+        <Attribute name="NAME"/>
+    </HiddenAttributes>
+</Session>
