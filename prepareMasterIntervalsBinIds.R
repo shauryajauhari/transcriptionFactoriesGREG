@@ -1,11 +1,11 @@
 ## Read table
-intervals <- read.table("hg19_2k_bins.bed", sep = "\t", header = FALSE)
+intervals <- read.table("hg38_2k_bins.bed", sep = "\t", header = FALSE)
 
 ## Define columns
 colnames(intervals) <- c("chr", "start", "end")
 
 ## Extract length of each chromosome type.
-levs <- levels(intervals$chr)
+levs <- levels(as.factor(intervals$chr))
 
 for (item in levs)
 {
@@ -23,5 +23,5 @@ for (item in levs)
 
 ## Save file
 intervals$binsGREGformat <- paste0(intervals$chr,":",intervals$binIds)
-write.table(intervals, file = "intervalsMasterReferenceGREG.txt", sep = "\t", 
+write.table(intervals, file = "intervalsMasterReferenceGREG38.txt", sep = "\t", 
             row.names = FALSE, quote = FALSE)
