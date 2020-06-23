@@ -1,7 +1,7 @@
-scoreTable <- read.table("./GREG/H1_hESC/normalizedReads.txt", header = TRUE) ## importing scores
+scoreTable <- read.table("./GREG/MCF7/normalizedReads.txt", header = TRUE) ## importing scores
 
-LRhubs <- read.table("./GREG/H1_HESC/H1ESCLRs.txt", header = TRUE) ## class:hub
-bins <- read.table("./GREG/H1_HESC/binsRegions.txt", header = TRUE) ## all regions
+LRhubs <- read.table("./GREG/MCF7/MCF7LRs.txt", header = TRUE) ## class:hub
+bins <- read.table("./GREG/MCF7/binsRegions.txt", header = TRUE) ## all regions
 colnames(bins) <- c("chr", "start", "end") ## renaming columns
 
 ## combining regions to scores
@@ -25,4 +25,4 @@ nonHubs$Class <- "Non-Hub"
 megaTable <- full_join(hubs, nonHubs)
 megaTable <- megaTable[with(megaTable, order(chr, start)), ] ## sorting the data
 
-write.table(megaTable, "./MachineLearning/H1ESCforML.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(megaTable, "./MachineLearning/MCF7forML.txt", sep = "\t", row.names = FALSE, quote = FALSE)
