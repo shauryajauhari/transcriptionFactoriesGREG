@@ -1,0 +1,49 @@
+---
+title: "Visualizing prediction hubs in Chr12 from A549 Cell-line (GREG)"
+author: "Shaurya Jauhari"
+date: "8/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exploring the prediction-hubs from A549 cell-line.
+
+We attempt to map the prediction results corresponding to LR-Hubs from the A549 cell-line. It will be interesting to see the intersect of the pre-caliberated LR-Hubs and the ones predicted by the classifier.
+
+The workflow commences with the installation of "Gviz" - the package we aim to deploy for the visualization.
+
+
+```{r Installing package}
+
+BiocManager::install("Gviz")
+library(Gviz)
+```
+
+Next, we load the data from the A549 cell-line (GREG). This is a comprehensive data (genome-wide) with values corresponding to epigenetic marks (features) for each bin (a 2Kb genomic region), in addition to a "Class", i.e. a "Hub" or a "Non-Hub". For the present case, we shall prune the data for the genomic intervals and their corresponding class. That is all we need!
+
+```{r loading data, echo=FALSE}
+
+a549greg <- read.table("A549forML.txt", header = TRUE) ## full data
+a549greg <- a549greg[, c(1:3,16)] ## genomic ranges and their class labels
+
+```
+
+Also, considering the computational resources we deploy, we shall focus on chromosome 21 only.
+
+
+```{r extracting chr21 data}
+
+a549gregChr21 <- a549greg[a549greg$chr=="chr21", ] ## subset of data for exemplifying
+```
+
+## Plotting Data
+
+```{r}
+annotationTrackChr21 <- AnnotationTrack(a549gregChr21[,1:3])
+plotTracks(annotationTrackChr21)
+```
+
+
