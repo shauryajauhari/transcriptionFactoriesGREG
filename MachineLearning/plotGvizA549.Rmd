@@ -36,14 +36,16 @@ Also, considering the computational resources we deploy, we shall focus on chrom
 
 ```{r extracting chr21 data}
 
-a549gregChr21 <- a549greg[a549greg$chr=="chr21", ] ## subset of data for exemplifying
+a549gregChr21 <- a549greg[a549greg$chr=="chr21" & a549greg$Class=="Non-Hub", ] ## subset of data for exemplifying
 ```
 
 ## Plotting Data
 
 ```{r}
-annotationTrackChr21 <- AnnotationTrack(a549gregChr21[,1:3])
-plotTracks(annotationTrackChr21)
+annotationTrackChr21 <- AnnotationTrack(range = a549gregChr21, name = "Non-Hubs", genome = "hg38", chromosome = "chr21")
+itrack <- IdeogramTrack(genome = "hg38", chromosome = "chr21")
+gtrack <- GenomeAxisTrack()
+plotTracks(list(annotationTrackChr21, itrack, gtrack))
 ```
 
 
