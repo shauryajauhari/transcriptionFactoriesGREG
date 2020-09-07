@@ -27,8 +27,14 @@ modelPerformance <- function (model, testData, testDataClass) {
 
   predictionResults <- prediction(predictionLabelsProbabilities, testDataClass)
   performanceResults <- performance(predictionResults, "tpr", "fpr")
-  plot(performanceResults, colorize = TRUE)
-
+  plot(performanceResults, main = "ROC Curve", colorize = TRUE)
+  abline(a = 0, b = 1)
+  
+## AUC
+  
+  aucFind <- performance(predictionResults, measure = "auc")
+  aucFind <- aucFind@y.values[[1]]
+  cat("The area under curve is", aucFind, "\n")
 
 ## Statistical Significance of the model
   overallP <- with(model,
@@ -36,7 +42,7 @@ modelPerformance <- function (model, testData, testDataClass) {
                            df.null-df.residual,
                            lower.tail = FALSE))
   cat("The statistical significance for the model is", overallP, "\n")
-  cat("The confidence level for this model is",
+  cat("The confidence level for the model is",
       ((1-overallP)*100), "percent")
 
 }
