@@ -8,6 +8,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   standardData <- read.table(featureFile, header = TRUE) ## full data
   fineData <- standardData[, c(as.numeric(chrIndex), as.numeric(startIndex), as.numeric(endIndex), as.numeric(classIndex))]
   names(fineData) <- c ("chr", "start", "end", "Class")
+
   ## Extracting data for particular chromosome
   
   dataNonHub <- fineData[fineData[as.numeric(chrIndex)] == as.character(chrName) & fineData[4] == "Non-Hub", ]
@@ -21,6 +22,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
                                         chromosome = as.character(chrName))
   itrack <- IdeogramTrack(genome = "hg38", chromosome = as.character(chrName))
   genomeTrack <- GenomeAxisTrack()
+  png(file = paste0(as.character(chrName), "Hubs", ".png"))
   plotTracks(list(annotationTrackHub, itrack, genomeTrack), 
              background.panel = "#FFFEDB", 
              background.title = "darkblue",
@@ -34,6 +36,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
                                            genome = "hg38", 
                                            chromosome = as.character(chrName))
   itrack <- IdeogramTrack(genome = "hg38", chromosome = as.character(chrName))
+  png(file = paste0(as.character(chrName), "Non-Hubs", ".png"))
   plotTracks(list(annotationTrackNonHub, itrack),
              background.panel = "#FFFEDB", 
              background.title = "darkblue",
@@ -52,6 +55,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   
   ## Plotting Predicted Hubs
   
+  
   annotationTrackHub <- AnnotationTrack(range = dataHub, 
                                         name = "Hubs", 
                                         genome = "hg38", 
@@ -62,15 +66,21 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
                                                  chromosome = as.character(chrName))
   itrack <- IdeogramTrack(genome = "hg38", chromosome = as.character(chrName))
   genomeTrack <- GenomeAxisTrack()
+  png(file = paste0(as.character(chrName), "PredictedHubs", ".png"))
   plotTracks(list(annotationTrackPredictedHub,annotationTrackHub, itrack, genomeTrack), 
              background.panel = "#FFFEDB", 
              background.title = "darkblue",
              stacking = "dense")
-  
+  dev.off()
+
   ## True Positives
   
   dataPredicitedHub[dataPredicitedHub$Class == dataPredicitedHub$Prediction , ]
-  
+  write.table(dataPredicitedHub, 
+              file = paste0(as.character(chrName), "TruePositives.txt")
+              sep = "\t", 
+              row.names = FALSE, 
+              quote = FALSE) 
 }
   
   
