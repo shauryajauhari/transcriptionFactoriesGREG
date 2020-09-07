@@ -7,7 +7,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   
   standardData <- read.table(featureFile, header = TRUE) ## full data
   fineData <- standardData[, c(as.numeric(chrIndex), as.numeric(startIndex), as.numeric(endIndex), as.numeric(classIndex))]
-  
+  names(fineData) <- c ("chr", "start", "end", "Class")
   ## Extracting data for particular chromosome
   
   dataNonHub <- fineData[fineData[as.numeric(chrIndex)] == as.character(chrName) & fineData[4] == "Non-Hub", ]
