@@ -2,6 +2,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   
   
   ## Install and Load the package for visualization: Gviz
+  
   if (!require(Gviz)) install.packages('Gviz', dependencies = TRUE)
   library(Gviz)
   
@@ -77,7 +78,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   
   dataPredicitedHub[dataPredicitedHub$Class == dataPredicitedHub$Prediction , ]
   write.table(dataPredicitedHub, 
-              file = paste0(as.character(chrName), "TruePositives.txt")
+              file = paste0(as.character(chrName), "TruePositives.txt"),
               sep = "\t", 
               row.names = FALSE, 
               quote = FALSE) 
