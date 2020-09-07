@@ -8,12 +8,12 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   standardData <- read.table(featureFile, header = TRUE) ## full data
   fineData <- standardData[, c(as.numeric(chrIndex), as.numeric(startIndex), as.numeric(endIndex), as.numeric(classIndex))]
   
-  # Extracting data for particular chromosome
+  ## Extracting data for particular chromosome
   
   dataNonHub <- fineData[fineData[as.numeric(chrIndex)] == as.character(chrName) & fineData[4] == "Non-Hub", ]
   dataHub <- fineData[fineData[as.numeric(chrIndex)] == as.character(chrName) & fineData[4] == "Hub", ]
   
-  # Plotting Hubs
+  ## Plotting Hubs
   
   annotationTrackHub <- AnnotationTrack(range = dataHub, 
                                         name = "Hubs", 
@@ -27,7 +27,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
              stacking = "dense")
   dev.off()
   
-  # Plotting Non-Hubs
+  ## Plotting Non-Hubs
   
   annotationTrackNonHub <- AnnotationTrack(range = dataNonHub, 
                                            name = "Non-Hubs", 
@@ -40,17 +40,17 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
              stacking = "dense")
   dev.off()
   
-  # Merging Actual and Predicted Classes
+  ## Merging Actual and Predicted Classes
   
   dataPredicted <- cbind(fineData, modelPredictionProbabilities)
   names(dataPredicted)[names(dataPredicted) == "modelPredictionProbabilities"] <- "Prediction"
   
-  # Define positive and negative class definitions
+  ## Define positive and negative class definitions
   
   dataPredicted$Prediction <- ifelse(dataPredicted$Prediction == 1, "Non-Hub", "Hub")            
   dataPredicitedHub <- dataPredicted[dataPredicted[as.numeric(chrIndex)] == chrName & dataPredicted$Prediction=="Hub", ]
   
-  # Plotting Predicted Hubs
+  ## Plotting Predicted Hubs
   
   annotationTrackHub <- AnnotationTrack(range = dataHub, 
                                         name = "Hubs", 
@@ -67,7 +67,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
              background.title = "darkblue",
              stacking = "dense")
   
-  # True Positives
+  ## True Positives
   
   dataPredicitedHub[dataPredicitedHub$Class == dataPredicitedHub$Prediction , ]
   
