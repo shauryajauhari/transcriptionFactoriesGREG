@@ -2,17 +2,17 @@
 # and calculates the normalized read counts for every feature (again, as defined in "siftedData.xlsx"). The
 # file is saved in the home directory of that cell-type.
 
-postProcessBamFiles <- function(cell)
+postProcessBAMFiles <- function(cell)
   {
   
     # Listing of all "readCounts.tab" from each feature.
   
-    covFiles <- list.files(path=paste0("./GREG/", cell, "/"), pattern = ".tab", recursive = TRUE)
+    covFiles <- list.files(path=paste0(getwd(),"/GREG/", cell, "/"), pattern = ".tab", recursive = TRUE)
 
     # Loading those files to a list of dataframes.
   
     dataCovFiles <- lapply(covFiles, function(path) {
-      read.delim( file = paste0("./GREG/", cell, "/", path), header = TRUE, sep = "\t")
+      read.delim( file = paste0(getwd(), "/GREG/", cell, "/", path), header = TRUE, sep = "\t")
       })
 
      # Naming list indices for intuitive access.
@@ -59,8 +59,8 @@ postProcessBamFiles <- function(cell)
 
   # Save file and write as output.
 
-  write.table(normAvgReads, file = paste0("./GREG/", cell, "/normalizedReads.txt") , sep = "\t", row.names = FALSE)
-  write.table(binsRegions, file = paste0("./GREG/", cell, "/binsRegions.txt") , sep = "\t", row.names = FALSE)
+  write.table(normAvgReads, file = paste0(getwd(), "/GREG/", cell, "/normalizedReads.txt") , sep = "\t", row.names = FALSE)
+  write.table(binsRegions, file = paste0(getwd(), "/GREG/", cell, "/binsRegions.txt") , sep = "\t", row.names = FALSE)
 
 
  # (ii) For each feature
@@ -81,7 +81,7 @@ postProcessBamFiles <- function(cell)
       # Save and write the respective bedGraph file.
 
        write.table(individScores[[i]],
-                   file = paste0("./GREG/", cell, "/", names(individScores[i]), "/", "normalizedReads.bedGraph"),
+                   file = paste0(getwd(), "/GREG/", cell, "/", names(individScores[i]), "/", "normalizedReads.bedGraph"),
                   sep = "\t",
                   quote = FALSE,
                   row.names = FALSE,
