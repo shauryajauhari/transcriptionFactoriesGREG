@@ -1,7 +1,7 @@
 downloadBAMfiles <- function(cell, feature)
 {
-  ## Install curl package
-  install.packages("curl")
+  ## Install "curl" package and load library
+  if (!require(curl)) install.packages("curl", dependencies = TRUE)
   library(curl)
   
   if(cell %in% cells & feature %in% features)
