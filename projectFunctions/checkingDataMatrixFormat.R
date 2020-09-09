@@ -8,13 +8,13 @@ checkingDataMatrixFormat <- function(cell){
     covFile <- read.table(paste0(getwd(), "/GREG/", cell, "/normalizedReads.txt"), header = TRUE)
     
     ## Column count
-    numberColumns <- length(covFile)
+    numberColumns <- ncol(covFile)
     
     ## Number of folders for features
     numberFolders <- length(list.dirs(path = paste0(getwd(), "/GREG/", cell, "/")))
     
-    ## Condition checking | have all features been covered?
-    ifelse(numberColumns == numberFolders, return("All good!"), return("Ouch! Did you miss something?"))
+    ## Condition checking | have all features been covered in columns and appropriate rows exist?
+    ifelse(numberColumns == numberFolders & nrow(covFile)>1, return("All good!"), return("Ouch! Did you miss something?"))
   }
   
   else
