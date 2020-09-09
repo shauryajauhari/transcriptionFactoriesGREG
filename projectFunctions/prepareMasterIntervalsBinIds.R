@@ -1,5 +1,5 @@
 ## Read table
-intervals <- read.table("hg38_2k_bins.bed", sep = "\t", header = FALSE)
+intervals <- read.table("../hg38_2k_bins.bed", sep = "\t", header = FALSE)
 
 ## Define columns
 colnames(intervals) <- c("chr", "start", "end")
@@ -23,5 +23,5 @@ for (item in levs)
 
 ## Save file
 intervals$binsGREGformat <- paste0(intervals$chr,":",intervals$binIds)
-write.table(intervals, file = "intervalsMasterReferenceGREG38.txt", sep = "\t", 
+write.table(intervals, file = "../intervalsMasterReferenceGREG38.txt", sep = "\t", 
             row.names = FALSE, quote = FALSE)
