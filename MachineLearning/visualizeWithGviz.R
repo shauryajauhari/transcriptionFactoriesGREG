@@ -1,7 +1,7 @@
 visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIndex, classIndex, modelPredictionProbabilities) {
   
   
-  ## Install and Load the package for visualization: Gviz
+  ## Install (if absent) and Load the package for visualization: Gviz
   
   if (!require(Gviz)) install.packages('Gviz', dependencies = TRUE)
   library(Gviz)
@@ -76,12 +76,24 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
 
   ## True Positives
   
-  dataPredicitedHub[dataPredicitedHub$Class == dataPredicitedHub$Prediction , ]
+  dataPredicitedHub <- dataPredicitedHub[dataPredicitedHub$Class == dataPredicitedHub$Prediction , ]
   write.table(dataPredicitedHub, 
               file = paste0(as.character(chrName), "TruePositives.txt"),
               sep = "\t", 
               row.names = FALSE, 
               quote = FALSE) 
+  
+  
+  ## True Negatives
+  
+  dataPredicitedNonHub <- dataPredicted[dataPredicted[as.numeric(chrIndex)] == chrName & dataPredicted$Prediction=="Non-Hub", ]
+  dataPredicitedNonHub <- dataPredicitedNonHub[dataPredicitedNonHub$Class == dataPredicitedNonHub$Prediction , ]
+  write.table(dataPredicitedNonHub, 
+              file = paste0(as.character(chrName), "TrueNegatives.txt"),
+              sep = "\t", 
+              row.names = FALSE, 
+              quote = FALSE) 
+  
 }
   
   
