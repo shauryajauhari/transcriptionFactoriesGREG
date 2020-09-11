@@ -3,6 +3,7 @@
 
 bpmNormalize <- function(reads)
 {
+  stopifnot(is.numeric(reads)) ## check for appropriate input datatype.
   bpm <- (reads/ (sum(reads)/10^6))
   return(bpm)
 }
