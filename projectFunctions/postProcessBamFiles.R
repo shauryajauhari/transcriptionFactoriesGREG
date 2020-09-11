@@ -1,10 +1,15 @@
-# The following function covers "whole 9 yards"!. It takes any cell-type (as defined in "siftedData.xlsx"),
+## Author : Shaurya Jauhari
+## Last Reviewed: September 11th, 2020.
+# Description: The following function covers "whole 9 yards"!. It takes any cell-type (as defined in "siftedData.xlsx"),
 # and calculates the normalized read counts for every feature (again, as defined in "siftedData.xlsx"). The
 # file is saved in the home directory of that cell-type.
 
 postProcessBAMFiles <- function(cell)
   {
+  cells <- c("A549", "H1ESC", "HELA", "IMR90", "K562", "MCF7")
   
+  if(cell %in% cells)
+  {
     # Listing of all "readCounts.tab" from each feature.
   
     covFiles <- list.files(path=paste0(getwd(),"/GREG/", cell, "/"), pattern = ".tab", recursive = TRUE)
@@ -87,6 +92,12 @@ postProcessBAMFiles <- function(cell)
                   row.names = FALSE,
                   col.names = FALSE)
     }
+  }
+  
+  else
+  {
+    return("Invalid cell-type.")
+  }
 }
 
 
