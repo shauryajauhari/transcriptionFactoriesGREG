@@ -33,7 +33,7 @@ makeTableClassFeatures <- function(cell){
   megaTable <- full_join(hubs, nonHubs)
   megaTable <- megaTable[with(megaTable, order(chr, start)), ] ## sorting the data
   
-  ## Savinf Results
+  ## Saving Results
   
   write.table(megaTable, paste0("../MachineLearning/", cell, "forML.txt"), 
               sep = "\t", 
