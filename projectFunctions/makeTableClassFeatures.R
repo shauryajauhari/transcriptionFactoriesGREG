@@ -5,6 +5,10 @@
 ## a compound data-matrix for machine learning application.
 
 makeTableClassFeatures <- function(cell){
+  cells <- c("A549", "H1ESC", "HELA", "IMR90", "K562", "MCF7")
+  
+  if(cell %in% cells)
+  {
 
   scoreTable <- read.table(paste0("../GREG/",cell, "/normalizedReads.txt"), header = TRUE) ## importing scores
   
@@ -39,5 +43,11 @@ makeTableClassFeatures <- function(cell){
               sep = "\t", 
               row.names = FALSE, 
               quote = FALSE)
+  }
+  
+  else
+  {
+    return("Invalid cell-type.")
+  }
   
 }

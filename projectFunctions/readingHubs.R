@@ -7,24 +7,28 @@
 readingHubs <- function(){
   
   ## Loading clustering results from GREG.
+  
   load("./data/GREG_cluster_v3.RData")
   
   ## Define valid cell types
+  
   cellTypes <- c("IMR90", "MCF7", "HELA", "K562", "H1ESC", "A549")
   validLongRangeRelationships <- Long_Range_relationships[Long_Range_relationships$r_CellType %in% cellTypes, ]
   
   ## From this variable, we shall only be interested in the LR ids( for which we shall
-  ## fetching details from anothe rvariable), and celltypes. Let's prune the data in 
+  ## fetching details from another variable), and cell-types. Let's prune the data in 
   ## that accord.
   
   validLongRangeRelationships <- validLongRangeRelationships[,c(1,6)]
   
-  ## Next step is to filter LR_ids for each given celltype as a exclusive dataset.
+  ## Next step is to filter LR_ids for each given cell-type as a exclusive data-set.
+  
   LRdataCellTypes <- lapply(cellTypes, function(ct) {validLongRangeRelationships[validLongRangeRelationships$r_CellType %in% ct, ]})
   names(LRdataCellTypes) <- cellTypes
   
   
   ## Finding bin ids for given LR ids.
+  
   LRids <- names(Bins_genes_per_LR_relationship)
   
   dataLRids <- list()
@@ -117,7 +121,8 @@ readingHubs <- function(){
   }
   
   
-  ## Save this LR-hub tabulation
+  ## Save this LR-hub tabulation as an R object.
+  
   save(LRdataCellTypes, file = "LRhubsGREG.Rdata")
   
   
