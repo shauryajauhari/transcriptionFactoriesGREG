@@ -6,10 +6,10 @@
 
 makeTableClassFeatures <- function(cell){
 
-  scoreTable <- read.table(paste0("../GREG/", cell,"/normalizedReads.txt"), header = TRUE) ## importing scores
+  scoreTable <- read.table(paste0("../GREG/",cell, "/normalizedReads.txt"), header = TRUE) ## importing scores
   
-  LRhubs <- read.table(paste0("../GREG/", cell, "/MCF7LRs.txt"), header = TRUE) ## class:hub
-  bins <- read.table(paste0("../GREG/", cell, "/binsRegions.txt"), header = TRUE) ## all regions
+  LRhubs <- read.table(paste0("../GREG/",cell, "/",cell, "LRs.txt"), header = TRUE) ## class:hub
+  bins <- read.table(paste0("../GREG/",cell, "/binsRegions.txt"), header = TRUE) ## all regions
   colnames(bins) <- c("chr", "start", "end") ## renaming columns
   
   ## combining regions to scores
