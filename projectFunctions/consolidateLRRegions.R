@@ -1,3 +1,8 @@
+## Author : Shaurya Jauhari
+## Last Reviewed: September 11th, 2020.
+## Description: This function assembles together the defined LR regions into a single,
+## contiguous range and saves to a file, exclusive to each cell type. This function
+## takes the name of the cell-type as input.
 
 consolidateLRRegions <- function(cell){
 
@@ -15,7 +20,7 @@ for(i in 1:length(files))
 }
 
 LRregionsAll <- do.call("rbind", LRregions) ## combining all regions under one dataframe
-write.table(LRregionsAll, file = paste0("../GREG/", cell, "/", cell, "LRs.txt" , row.names = FALSE, col.names = TRUE) ## Save file
+write.table(LRregionsAll, file = paste0("../GREG/", cell, "/", cell, "LRs.txt") , row.names = FALSE, col.names = TRUE) ## Save file
 
 } 
 
