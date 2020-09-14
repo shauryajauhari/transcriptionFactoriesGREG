@@ -48,6 +48,8 @@ prepareMasterIntervalsBinIds <- function(bedFile)
                 row.names = FALSE, 
                 quote = FALSE)
     
+    print("File saved successfully!")
+    
   }
   else
   {
@@ -55,3 +57,4 @@ prepareMasterIntervalsBinIds <- function(bedFile)
   }
   
 }
+
