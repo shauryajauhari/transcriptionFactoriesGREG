@@ -36,7 +36,7 @@ prepareMasterIntervalsBinIds <- function(bedFile)
           intervals$binIds[len] <- paste0("Bin", as.character(occur))
         }
       }
-      cat("The chromosome", item, "has", occur, "occurences. \n") ## Display chromosome-wise bin-counts
+    #  cat("The chromosome", item, "has", occur, "occurrences. \n") ## Display chromosome-wise bin-counts
     }
     
     ## Save results to a file
@@ -48,12 +48,12 @@ prepareMasterIntervalsBinIds <- function(bedFile)
                 row.names = FALSE, 
                 quote = FALSE)
     
-    print("File saved successfully!")
+    return("File saved successfully!")
     
   }
   else
   {
-    print("File not found. Please check!")
+    return("File not found. Please check!")
   }
   
 }

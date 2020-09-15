@@ -71,7 +71,7 @@ readingHubs <- function(){
   ## For "binIndices" now.
   ## Let us now pull the information of bin indices from the master chart.
   
-  binIndices <- read.delim("intervalsMasterReferenceGREG.txt")
+  binIndices <- read.delim("intervalsMasterReferenceGREG19.txt")
   
   ## Step1 : [k]
   
@@ -109,7 +109,7 @@ readingHubs <- function(){
     }
   }
   
-  ## Reformatting the bin Indices - list of dataframes to a consolidated dataframe for
+  ## Reformatting the bin Indices - list of data-frames to a consolidated data-frame for
   ## all LR_ids.
   
   for (i in 1:length(LRdataCellTypes))
@@ -126,7 +126,7 @@ readingHubs <- function(){
   save(LRdataCellTypes, file = "LRhubsGREG.Rdata")
   
   
-  ## We can remove the cell-names and bin-Ids now for convenience.
+  ## We can remove the cell-names and bin-Ids now, for convenience.
   
   for (i in 1:length(LRdataCellTypes))
   {
@@ -142,22 +142,22 @@ readingHubs <- function(){
   
   dir.create("./results") ## create a results folder
   
-  ## subfolder for cell specific information 
+  ## sub-folder for cell specific information 
   
   for (i in 1:length(cellTypes))
   {
-    dir.create(paste0("./results/",cellTypes[i]))
+    dir.create(paste0("./results/", cellTypes[i]))
   }
   
   cats <- c("LR-hubs", "Bin-hubs")
   
-  ## sub-subfolders for all LR-hubs
+  ## sub-sub-folders for all LR-hubs
   
   for (i in 1:length(cellTypes))
   {
     for(j in 1:length(cats))
     {
-      dir.create(paste0("./results/",cellTypes[i], "/", cats[j]))  
+      dir.create(paste0("./results/", cellTypes[i], "/", cats[j]))  
     }
   }
   
@@ -177,6 +177,7 @@ readingHubs <- function(){
     }
   }
   
+  return("Done!")
   
 }
 
