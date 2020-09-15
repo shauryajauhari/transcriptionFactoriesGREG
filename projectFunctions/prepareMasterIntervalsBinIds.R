@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 14th, 2020.
+## Last Reviewed: September 15th, 2020.
 ## Description: This function takes a regular, 3-column BED file (with specific intervals; without header) and assigns the following:
 ## (i) a Bin-ID, which is a unique id for each chromosome-specific bin; Bin1, Bin2, Bin3, ...
 ## (ii) a column with a concatenation for chromosome and Bin-ID; chr1:Bin1, chr1:Bin2, chr2:Bin1, ...
@@ -48,8 +48,8 @@ prepareMasterIntervalsBinIds <- function(bedFile)
                 row.names = FALSE, 
                 quote = FALSE)
     
-    return("File saved successfully!")
-    
+    return(intervals)
+#   return ("File saved successfully!")
   }
   else
   {

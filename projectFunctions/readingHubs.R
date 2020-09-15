@@ -177,7 +177,7 @@ readingHubs <- function(){
     }
   }
   
-  return("Done!")
+  return(LRdataCellTypes)
   
 }
 
