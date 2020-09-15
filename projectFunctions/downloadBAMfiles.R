@@ -25,7 +25,7 @@ downloadBAMfiles <- function(cell, feature)
     for (lenList in 1:length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))))
     {
       curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
-                    destfile = print(paste0(paste0("./GREG/",cell), paste0("/", feature), 
+                    destfile = print(paste0(paste0(getwd(), "/GREG/", cell), paste0("/", feature), 
                                  paste0("/", basename(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell
                                                                                & masterData$Feature == feature][[1]], ","))[lenList])))),
                     quiet = FALSE)
