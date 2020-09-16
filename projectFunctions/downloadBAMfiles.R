@@ -1,6 +1,7 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 15th, 2020.
-## Description: Download BAM files
+## Last Reviewed: September 16th, 2020.
+## Description: The function downloads the BAM data files associated with a particular feature of a cell-type as defined in the metadata table.
+## The function boasts several checks for input parameters and successful file download. 
 
 downloadBAMfiles <- function(cell, feature)
 {
@@ -11,7 +12,6 @@ downloadBAMfiles <- function(cell, feature)
     return("Argument missing.")
   }
   
-  
   ## Install packages (if absent)
   
   requiredPackages <- c("curl", "readxl")
@@ -20,7 +20,7 @@ downloadBAMfiles <- function(cell, feature)
 
   ## Loading package libraries
  
-   library(curl)
+  library(curl)
   library(readxl) 
   
   
@@ -39,11 +39,18 @@ downloadBAMfiles <- function(cell, feature)
   {
     for (lenList in 1:length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))))
     {
-      curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
+      if(isTRUE(curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
                     destfile = print(paste0(paste0(getwd(), "/GREG/", cell), paste0("/", feature), 
                                  paste0("/", basename(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell
                                                                                & masterData$Feature == feature][[1]], ","))[lenList])))),
-                    quiet = FALSE)
+                    quiet = FALSE)))
+        {
+          return("File successfully downloaded and saved.")
+        }
+      else
+      {
+        return("Download error!")
+      }
     }
   }
   else

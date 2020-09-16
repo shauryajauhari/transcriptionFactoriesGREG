@@ -20,7 +20,7 @@ createFolderTree <- function(folderName, subFolderList, subsubFolderList) {
   {
     for(j in 1:length(subsubFolderList))
     {
-      dir.create(paste0(paste0("./", folderName, "/", subFolderList[i]),paste0("/",subsubFolderList[j])))
+      dir.create(paste0(paste0(getwd(), "/", folderName, "/", subFolderList[i]),paste0("/",subsubFolderList[j])))
     }
   }
 }

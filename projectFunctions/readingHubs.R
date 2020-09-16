@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 10th, 2020.
+## Last Reviewed: September 16th, 2020.
 ## Filtering Hubs for different cell types.
 ## The cell-types in questions are all existing cell-types in GREG, except for 
 ## IPS6.9 and IPS19.11, due to lack of feature data associated with them.
@@ -73,7 +73,7 @@ readingHubs <- function(){
   
   binIndices <- read.delim("intervalsMasterReferenceGREG19.txt")
   
-  ## Step1 : [k]
+  ## Step1 : [k] : Create list
   
   
   for (i in 1:length(LRdataCellTypes))
@@ -92,7 +92,7 @@ readingHubs <- function(){
   }
   
   
-  ## Step2 : [[k]]
+  ## Step2 : [[k]] : Populate list
   
   for (i in 1:length(LRdataCellTypes))
   {
