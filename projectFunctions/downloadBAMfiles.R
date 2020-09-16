@@ -5,23 +5,23 @@
 
 downloadBAMfiles <- function(cell, feature)
 {
-  ## Check if any or both arguments are missing.
-  
-  if(missing(cell) | missing(feature))
-  {
-    return("Argument missing.")
-  }
-  
   ## Install packages (if absent)
   
   requiredPackages <- c("curl", "readxl")
   newPackages <- requiredPackages[!(requiredPackages %in% installed.packages()[,"Package"])]
-  if(length(newPackages)) install.packages(newPackages)
-
+  if(length(newPackages)) install.packages(newPackages, dependencies = TRUE)
+  
   ## Loading package libraries
- 
+  
   library(curl)
-  library(readxl) 
+  library(readxl)
+  
+  ## Check if any or both arguments are missing.
+  
+  if(missing(cell) | missing(feature) | nargs()!=2)
+  {
+    return("Argument missing.")
+  }
   
   
   ## Loading metadata table
@@ -39,22 +39,29 @@ downloadBAMfiles <- function(cell, feature)
   {
     for (lenList in 1:length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))))
     {
-      if(isTRUE(curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
+       curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
                     destfile = print(paste0(paste0(getwd(), "/GREG/", cell), paste0("/", feature), 
                                  paste0("/", basename(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell
                                                                                & masterData$Feature == feature][[1]], ","))[lenList])))),
-                    quiet = FALSE)))
-        {
-          return("File successfully downloaded and saved.")
-        }
-      else
-      {
-        return("Download error!")
-      }
+                    quiet = FALSE)
     }
   }
   else
   {
     return("Invalid cell-type or feature.")
   }
+  
+  ## Check for valid downloads
+  ## Define a counter variable
+  count = 0
+  
+  ## Listing count of the downloaded BAM files  
+  count <- length(list.files(paste0(getwd(),"/GREG/",cell, "/", feature, "/"), pattern = "bam", ignore.case = TRUE))
+  
+  ## Total Number of files as listed in the master table
+  totalFiles <- length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ",")))
+  
+  ## Condition Checking | downloaded BAM files versus the listed files
+  ifelse(count == totalFiles, return("File successfully downloaded and saved."), return("Missing files. Download Error. Please check!"))
+  
 }
