@@ -7,7 +7,7 @@ downloadBAMfiles <- function(cell, feature)
 {
   ## Install packages (if absent)
   
-  requiredPackages <- c("curl", "readxl")
+  requiredPackages <- c("curl", "readxl", "Rsamtools")
   newPackages <- requiredPackages[!(requiredPackages %in% installed.packages()[,"Package"])]
   if(length(newPackages)) install.packages(newPackages, dependencies = TRUE)
   
@@ -15,6 +15,7 @@ downloadBAMfiles <- function(cell, feature)
   
   library(curl)
   library(readxl)
+  library(Rsamtools)
   
   ## Check if any or both arguments are missing.
   
@@ -51,17 +52,45 @@ downloadBAMfiles <- function(cell, feature)
     return("Invalid cell-type or feature.")
   }
   
-  ## Check for valid downloads
+  ## For checking valid number of downloads
   ## Define a counter variable
+  
   count = 0
   
   ## Listing count of the downloaded BAM files  
+  
   count <- length(list.files(paste0(getwd(),"/GREG/",cell, "/", feature, "/"), pattern = "bam", ignore.case = TRUE))
   
   ## Total Number of files as listed in the master table
+  
   totalFiles <- length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ",")))
   
-  ## Condition Checking | downloaded BAM files versus the listed files
-  ifelse(count == totalFiles, return("File successfully downloaded and saved."), return("Missing files. Download Error. Please check!"))
   
+  ## Check for valid download
+  ## Create a function for examining the downloaded BAM file
+  
+  checkBAM <- function(BAMFile){
+    outResult <- tryCatch(open(BamFile(BAMFile)), error = function(e) e)
+    if (inherits(outResult, "error")){
+      stop("Invalid BAM file.")
+    }
+    else{
+      return("Valid download.")
+    }
+  }
+  
+  ## Retrieve downloaded files.
+  
+  downloadedBAMFiles <- list.files(path = paste0(getwd(),"/GREG/",cell, "/", feature, "/"), pattern = "bam", ignore.case = TRUE)
+  
+  ## For each downloaded BAM file ...
+  
+  for (i in 1:length(downloadedBAMFiles))
+  {
+    ## Condition Checking | (i) valid BAM file, and (ii) downloaded BAM files versus the listed files | count.
+    
+    ifelse(checkBAM(paste0(getwd(),"/GREG/",cell, "/", feature, "/", downloadedBAMFiles[i])) == "Valid download." & count == totalFiles, 
+           return("Files successfully downloaded and saved."), 
+           return("Missing files. Download Error. Please check!"))
+  }
 }
