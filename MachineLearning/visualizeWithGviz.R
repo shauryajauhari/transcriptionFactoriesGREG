@@ -3,7 +3,9 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   
   ## Install (if absent) and Load the package for visualization: Gviz
   
-  if (!require(Gviz)) install.packages('Gviz', dependencies = TRUE)
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", dependencies = TRUE)
+  BiocManager::install("Gviz")
   library(Gviz)
   
   standardData <- read.table(featureFile, header = TRUE) ## full data
