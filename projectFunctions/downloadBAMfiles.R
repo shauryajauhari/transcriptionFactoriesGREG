@@ -20,9 +20,9 @@ downloadBAMfiles <- function(cell, feature)
   ## Check if any or both arguments are missing.
   
   if(missing(cell) | missing(feature) | nargs()!=2)
-  {
-    return("Argument missing.")
-  }
+    {
+      return("Argument missing.")
+    }
   
   
   ## Loading metadata table
@@ -37,29 +37,25 @@ downloadBAMfiles <- function(cell, feature)
   
   
   if(cell %in% cells & feature %in% features)
-  {
-    for (lenList in 1:length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))))
     {
-       curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
+      for (lenList in 1:length(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))))
+      {
+        tryCatch(curl_download(url = trimws(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell & masterData$Feature == feature][[1]], ","))[lenList]),
                     destfile = print(paste0(paste0(getwd(), "/GREG/", cell), paste0("/", feature), 
                                  paste0("/", basename(unlist(strsplit(masterData$`Download Link`[masterData$`Cell Type`== cell
                                                                                & masterData$Feature == feature][[1]], ","))[lenList])))),
-                    quiet = FALSE)
+                    quiet = FALSE), error = function(e) e)
+      }
     }
-  }
   else
-  {
-    return("Invalid cell-type or feature.")
-  }
+    {
+      return("Invalid cell-type or feature.")
+    }
   
   ## For checking valid number of downloads
-  ## Define a counter variable
-  
-  count = 0
-  
   ## Listing count of the downloaded BAM files  
   
-  count <- length(list.files(paste0(getwd(),"/GREG/",cell, "/", feature, "/"), pattern = "bam", ignore.case = TRUE))
+  count <- length(list.files(paste0(getwd(), "/GREG/", cell, "/", feature, "/"), pattern = "bam", ignore.case = TRUE))
   
   ## Total Number of files as listed in the master table
   
@@ -69,15 +65,20 @@ downloadBAMfiles <- function(cell, feature)
   ## Check for valid download
   ## Create a function for examining the downloaded BAM file
   
-  checkBAM <- function(BAMFile){
-    outResult <- tryCatch(open(BamFile(BAMFile)), error = function(e) e)
-    if (inherits(outResult, "error")){
-      stop("Invalid BAM file.")
+  checkBAM <- function(BAMFile)
+    {
+    ## Create index to the BAM file
+    
+      outResult <- tryCatch(open(BamFile(BAMFile)), error = function(e) e)
+      if (inherits(outResult, "error"))
+        {
+          stop("Invalid BAM file.")
+        }
+      else
+        {
+          return("Valid download.")
+        }
     }
-    else{
-      return("Valid download.")
-    }
-  }
   
   ## Retrieve downloaded files.
   
@@ -86,11 +87,11 @@ downloadBAMfiles <- function(cell, feature)
   ## For each downloaded BAM file ...
   
   for (i in 1:length(downloadedBAMFiles))
-  {
-    ## Condition Checking | (i) valid BAM file, and (ii) downloaded BAM files versus the listed files | count.
+    {
+      ## Condition Checking | (i) valid BAM file, and (ii) downloaded BAM files versus the listed files | count.
     
-    ifelse(checkBAM(paste0(getwd(),"/GREG/",cell, "/", feature, "/", downloadedBAMFiles[i])) == "Valid download." & count == totalFiles, 
-           return("Files successfully downloaded and saved."), 
-           return("Missing files. Download Error. Please check!"))
-  }
+      ifelse(checkBAM(paste0(getwd(), "/GREG/", cell, "/", feature, "/", downloadedBAMFiles[i])) == "Valid download." & count == totalFiles,
+            return("Files successfully downloaded and saved."),
+            return("Missing files. Download Error. Please check!"))
+    }
 }
