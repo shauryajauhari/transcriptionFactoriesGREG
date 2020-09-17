@@ -1,3 +1,14 @@
+## Author : Shaurya Jauhari
+## Last Reviewed: September 17th, 2020.
+## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
+## and engenders a comprehensive set of 7 performance metrics, as below:
+## (i) Confusion Matrix
+## (ii) Sensitivity
+## (iii) Specificity
+## (iv) ROC-Curve
+## (v) Area Under Curve(AUC) of the ROC-Curve
+## (vi) Statistical significance for the model
+## (vii) Confidence level for the model
 
 modelPerformance <- function (model, testData, testDataClass) {
 
