@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 17th, 2020.
+## Last Reviewed: September 21th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -54,6 +54,6 @@ modelPerformance <- function (model, testData, testDataClass) {
                            lower.tail = FALSE))
   cat("The statistical significance for the model is", overallP, "\n")
   cat("The confidence level for the model is",
-      ((1-overallP)*100), "percent")
+      ((1-overallP)*100), "%")
 
 }
