@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 21th, 2020.
+## Last Reviewed: September 23th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -9,6 +9,8 @@
 ## (v) Area Under Curve(AUC) of the ROC-Curve
 ## (vi) Statistical significance for the model
 ## (vii) Confidence level for the model
+
+## The last two metrics are applicable to linear models only.
 
 modelPerformance <- function (model, testData, testDataClass) {
 
@@ -47,13 +49,16 @@ modelPerformance <- function (model, testData, testDataClass) {
   aucFind <- aucFind@y.values[[1]]
   cat("The area under curve is", aucFind, "\n")
 
-## Statistical Significance of the model
-  overallP <- with(model,
-                    pchisq(null.deviance-deviance,
-                           df.null-df.residual,
+## Statistical Significance of the model (linear models only)
+  
+  if (class(model) %in% c("glm", "lm"))
+  {
+    overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))), 
+                           eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
                            lower.tail = FALSE))
-  cat("The statistical significance for the model is", overallP, "\n")
-  cat("The confidence level for the model is",
-      ((1-overallP)*100), "%")
-
+    cat("The statistical significance for the model is", overallP, "\n")
+    cat("The confidence level for the model is",
+        ((1-overallP)*100), "%")
+    
+  }
 }
