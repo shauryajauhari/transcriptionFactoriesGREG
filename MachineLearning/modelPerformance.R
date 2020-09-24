@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 23th, 2020.
+## Last Reviewed: September 24th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -32,6 +32,8 @@ modelPerformance <- function (model, testData, testDataClass) {
   confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = testDataClass)
   cat("The confusion matrix is\n") 
   print(confusionMatrix)
+  misClassError <- 1- sum(diag(confusionMatrix))/sum(confusionMatrix)
+  cat("The misclassification error of the model is", misClassError*100, "%", "\n")
   cat("The sensitivity of the model is", (sensitivity(confusionMatrix))*100, "%", "\n")
   cat("The specificity of the model is", (specificity(confusionMatrix))*100, "%", "\n")
 
@@ -51,7 +53,7 @@ modelPerformance <- function (model, testData, testDataClass) {
 
 ## Statistical Significance of the model (linear models only)
   
-  if (class(model) %in% c("glm", "lm"))
+  if (class(model) %in% c("glm","lm"))
   {
     overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))), 
                            eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),

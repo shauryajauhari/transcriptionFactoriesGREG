@@ -1,3 +1,9 @@
+## Author : Shaurya Jauhari
+## Last Reviewed: September 24th, 2020.
+## Description: This function generates chromosome-specific Gviz plots for the "Hubs" and "Non-hubs" (as defined), 
+## and also writes them as external files, in addition to the true positives and true negatives.  
+
+
 visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIndex, classIndex, modelPredictionProbabilities) {
   
   
