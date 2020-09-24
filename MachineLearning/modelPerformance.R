@@ -53,14 +53,11 @@ modelPerformance <- function (model, testData, testDataClass) {
 
 ## Statistical Significance of the model (linear models only)
   
-  if (class(model) %in% c("glm","lm"))
-  {
-    overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))), 
-                           eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
-                           lower.tail = FALSE))
-    cat("The statistical significance for the model is", overallP, "\n")
-    cat("The confidence level for the model is",
-        ((1-overallP)*100), "%")
+  ifelse(class(model) %in% c("glm","lm"), overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))), 
+                                                                 eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
+                                                                 lower.tail = FALSE)), )
+  
+  cat("The statistical significance for the model is", overallP, "\n")
+  cat("The confidence level for the model is",((1-overallP)*100), "%")
     
-  }
 }
