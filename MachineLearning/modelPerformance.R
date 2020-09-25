@@ -38,14 +38,16 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 ## The calculation of prediction probabilities depends on the type of model selected. For logistic regression, the model
 ## already has them as 'numeric' type, while for random forests, we have to make that conversion from 'factor' to 'numeric'.
   
-  ifelse(modelCat=="LR", 
+  ifelse(modelCategory %in% c("LR","lr"), 
          predictionLabelsProbabilities <- ifelse(predictionLabels > 0.5, 1, 0), 
          predictionLabelsProbabilities <- ifelse(as.numeric(predictionLabels)-1 > 0.5, 1, 0))
 
-  confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = testDataClass)
+  confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = testDataClassColumnName)
   cat("The confusion matrix is\n") 
   print(confusionMatrix)
-  misClassError <- 1- sum(diag(confusionMatrix))/sum(confusionMatrix)
+  accuracyClass <- sum(diag(confusionMatrix))/sum(confusionMatrix)
+  cat("The accuracy of the model is", accuracyClass*100, "%", "\n")
+  misClassError <- 1 - accuracyClass
   cat("The misclassification error of the model is", misClassError*100, "%", "\n")
   
 ## Create a check for imbalanced data.
@@ -57,7 +59,7 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 
 ## ROC curve
 
-  predictionResults <- prediction(predictionLabelsProbabilities, testDataClass)
+  predictionResults <- prediction(predictionLabelsProbabilities, testDataClassColumnName)
   performanceResults <- performance(predictionResults, "tpr", "fpr")
   plot(performanceResults, main = "ROC Curve", colorize = TRUE)
   abline(a = 0, b = 1)
@@ -83,7 +85,7 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
     
   else
   {
-    return(NULL)
+    cat("\n")
   }
     
 }
