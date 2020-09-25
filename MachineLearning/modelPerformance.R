@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 24th, 2020.
+## Last Reviewed: September 25th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -12,7 +12,7 @@
 
 ## The last two metrics are applicable to linear models only.
 
-modelPerformance <- function (model, testData, testDataClass) {
+modelPerformance <- function (model, modelCategory, testData, testDataClassColumnName) {
 
 ## Installing required packages and loading libraries
   
@@ -23,20 +23,37 @@ modelPerformance <- function (model, testData, testDataClass) {
   library(e1071)
   library(caret)
   library(ROCR)
+
+## Define categories of acceptable models.
+## LR: Logistic Regression
+## RF: Random Forests
   
+  modelCategories <- list("LR", "RF")
+  stopifnot(TRUE %in% grepl(modelCategory, modelCategories, ignore.case=TRUE))
   
 ## Model performance metrics
   
   predictionLabels <- predict(model, testData, type = "response")
-  predictionLabelsProbabilities <- ifelse(predictionLabels > 0.5, 1, 0)
+
+## The calculation of prediction probabilities depends on the type of model selected. For logistic regression, the model
+## already has them as 'numeric' type, while for random forests, we have to make that conversion from 'factor' to 'numeric'.
+  
+  ifelse(modelCat=="LR", 
+         predictionLabelsProbabilities <- ifelse(predictionLabels > 0.5, 1, 0), 
+         predictionLabelsProbabilities <- ifelse(as.numeric(predictionLabels)-1 > 0.5, 1, 0))
+
   confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = testDataClass)
   cat("The confusion matrix is\n") 
   print(confusionMatrix)
   misClassError <- 1- sum(diag(confusionMatrix))/sum(confusionMatrix)
   cat("The misclassification error of the model is", misClassError*100, "%", "\n")
+  
+## Create a check for imbalanced data.
+  
+  if(dim(confusionMatrix)[1] == 1) return("Only a single class predicted. Probably skewed data handling.")
+  
   cat("The sensitivity of the model is", (sensitivity(confusionMatrix))*100, "%", "\n")
   cat("The specificity of the model is", (specificity(confusionMatrix))*100, "%", "\n")
-
 
 ## ROC curve
 
@@ -51,13 +68,22 @@ modelPerformance <- function (model, testData, testDataClass) {
   aucFind <- aucFind@y.values[[1]]
   cat("The area under curve is", aucFind, "\n")
 
-## Statistical Significance of the model (linear models only)
+## Statistical Significance of the model (linear models only; logistic regression is a linear model)
   
   # ifelse(class(model) %in% c("glm","lm"), overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))),
   #                                                                eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
-  #                                                                lower.tail = FALSE)), )
-  ifelse(class(model) %in% c("glm","lm"), overallP <- with(model, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE)), )
-  cat("The statistical significance for the model is", overallP, "\n")
-  cat("The confidence level for the model is",((1-overallP)*100), "%")
+  # lower.tail = FALSE)), )
+  
+  if(modelCategory =="LR")
+  {
+    overallP <- with(model, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE))
+    cat("The statistical significance for the model is", overallP, "\n")
+    cat("The confidence level for the model is", ((1-overallP)*100), "%")
+  }
+    
+  else
+  {
+    return(NULL)
+  }
     
 }
