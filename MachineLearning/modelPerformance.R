@@ -27,8 +27,9 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 ## Define categories of acceptable models.
 ## LR: Logistic Regression
 ## RF: Random Forests
+## NN: Neural Nets
   
-  modelCategories <- list("LR", "RF")
+  modelCategories <- list("LR", "RF", "NN")
   stopifnot(TRUE %in% grepl(modelCategory, modelCategories, ignore.case=TRUE))
   
 ## Model performance metrics
