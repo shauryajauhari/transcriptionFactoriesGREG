@@ -77,7 +77,7 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
   #                                                                eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
   # lower.tail = FALSE)), )
   
-  if(modelCategory =="LR")
+  if(modelCategory %in% c("LR","lr"))
   {
     overallP <- with(model, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE))
     cat("The statistical significance for the model is", overallP, "\n")
