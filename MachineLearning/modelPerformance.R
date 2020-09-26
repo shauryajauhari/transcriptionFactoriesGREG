@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 25th, 2020.
+## Last Reviewed: September 26th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -43,7 +43,8 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
          predictionLabelsProbabilities <- ifelse(predictionLabels > 0.5, 1, 0), 
          predictionLabelsProbabilities <- ifelse(as.numeric(predictionLabels)-1 > 0.5, 1, 0))
 
-  confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = testDataClassColumnName)
+  confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = eval(parse(text= paste0(deparse(substitute(test)), 
+                                                                                                       "$", testDataClassColumnName))))
   cat("The confusion matrix is\n") 
   print(confusionMatrix)
   accuracyClass <- sum(diag(confusionMatrix))/sum(confusionMatrix)
@@ -60,7 +61,8 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 
 ## ROC curve
 
-  predictionResults <- prediction(predictionLabelsProbabilities, testDataClassColumnName)
+  predictionResults <- prediction(predictionLabelsProbabilities, eval(parse(text= paste0(deparse(substitute(test)),
+                                                                                         "$", testDataClassColumnName))))
   performanceResults <- performance(predictionResults, "tpr", "fpr")
   plot(performanceResults, main = "ROC Curve", colorize = TRUE)
   abline(a = 0, b = 1)
@@ -73,8 +75,10 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 
 ## Statistical Significance of the model (linear models only; logistic regression is a linear model)
   
-  # ifelse(class(model) %in% c("glm","lm"), overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))),
-  #                                                                eval(parse(text= paste0(deparse(substitute(model)), "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
+  # ifelse(class(model) %in% c("glm","lm"), overallP <- 1- (pchisq(eval(parse(text= paste0(deparse(substitute(model)), 
+  # "$null.deviance"))) - eval(parse(text= paste0(deparse(substitute(model)), "$deviance"))),
+  #                                                                eval(parse(text= paste0(deparse(substitute(model)), 
+  # "$df.null"))) - eval(parse(text= paste0(deparse(substitute(model)), "$df.residual"))),
   # lower.tail = FALSE)), )
   
   if(modelCategory %in% c("LR","lr"))
