@@ -43,7 +43,7 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
          predictionLabelsProbabilities <- ifelse(predictionLabels > 0.5, 1, 0), 
          predictionLabelsProbabilities <- ifelse(as.numeric(predictionLabels)-1 > 0.5, 1, 0))
 
-  confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = eval(parse(text= paste0(deparse(substitute(test)), 
+  confusionMatrix <- table(Predicted = predictionLabelsProbabilities, Actual = eval(parse(text= paste0(deparse(substitute(testData)), 
                                                                                           "$", deparse(substitute(testDataClassColumnName))))))
   cat("The confusion matrix is\n") 
   print(confusionMatrix)
@@ -61,7 +61,7 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 
 ## ROC curve
 
-  predictionResults <- prediction(predictionLabelsProbabilities, eval(parse(text= paste0(deparse(substitute(test)),
+  predictionResults <- prediction(predictionLabelsProbabilities, eval(parse(text= paste0(deparse(substitute(testData)),
                                                                             "$", deparse(substitute(testDataClassColumnName))))))
   performanceResults <- performance(predictionResults, "tpr", "fpr")
   plot(performanceResults, main = "ROC Curve", colorize = TRUE)
