@@ -1,10 +1,10 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 24th, 2020.
+## Last Reviewed: September 27th, 2020.
 ## Description: This function generates chromosome-specific Gviz plots for the "Hubs" and "Non-hubs" (as defined), 
 ## and also writes them as external files, in addition to the true positives and true negatives.  
 
 
-visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIndex, classIndex, modelPredictionProbabilities) {
+visualizeWithGviz <- function (cellLine, featureFile, chrName, chrIndex, startIndex, endIndex, classIndex, modelPredictionProbabilities) {
   
   
   ## Install (if absent) and Load the package for visualization: Gviz
@@ -26,12 +26,12 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   ## Plotting Hubs
   
   annotationTrackHub <- AnnotationTrack(range = dataHub, 
-                                        name = "Hubs", 
+                                        name = paste(as.character(cellLine), "Hubs", sep = " "), 
                                         genome = "hg38", 
                                         chromosome = as.character(chrName))
   itrack <- IdeogramTrack(genome = "hg38", chromosome = as.character(chrName))
   genomeTrack <- GenomeAxisTrack()
-  png(file = paste0(as.character(chrName), "Hubs", ".png"))
+  png(file = paste0(as.character(cellLine), as.character(chrName), "Hubs", ".png"))
   plotTracks(list(annotationTrackHub, itrack, genomeTrack), 
              background.panel = "#FFFEDB", 
              background.title = "darkblue",
@@ -41,11 +41,11 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   ## Plotting Non-Hubs
   
   annotationTrackNonHub <- AnnotationTrack(range = dataNonHub, 
-                                           name = "Non-Hubs", 
+                                           name = paste(as.character(cellLine), "Non-Hubs", sep = " "), 
                                            genome = "hg38", 
                                            chromosome = as.character(chrName))
   itrack <- IdeogramTrack(genome = "hg38", chromosome = as.character(chrName))
-  png(file = paste0(as.character(chrName), "Non-Hubs", ".png"))
+  png(file = paste0(as.character(cellLine), as.character(chrName), "Non-Hubs", ".png"))
   plotTracks(list(annotationTrackNonHub, itrack),
              background.panel = "#FFFEDB", 
              background.title = "darkblue",
@@ -66,27 +66,27 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   
   
   annotationTrackHub <- AnnotationTrack(range = dataHub, 
-                                        name = "Hubs", 
+                                        name = paste(as.character(cellLine), "Hubs", sep = " "),  
                                         genome = "hg38", 
                                         chromosome = as.character(chrName))
   annotationTrackPredictedHub <- AnnotationTrack(range = dataPredicitedHub, 
-                                                 name = "Predicted Hubs", 
+                                                 name = paste(as.character(cellLine), "Predicted Hubs", sep = " "), 
                                                  genome = "hg38", 
                                                  chromosome = as.character(chrName))
   itrack <- IdeogramTrack(genome = "hg38", chromosome = as.character(chrName))
   genomeTrack <- GenomeAxisTrack()
-  png(file = paste0(as.character(chrName), "PredictedHubs", ".png"))
+  png(file = paste0(as.character(cellLine), as.character(chrName), "PredictedHubs", ".png"))
   plotTracks(list(annotationTrackPredictedHub,annotationTrackHub, itrack, genomeTrack), 
              background.panel = "#FFFEDB", 
              background.title = "darkblue",
              stacking = "dense")
   dev.off()
 
-  ## True Positives
+  ## True Positives | Of utmost importance as they enlist the ones that are originally marked and predicted too. 
   
   dataPredicitedHub <- dataPredicitedHub[dataPredicitedHub$Class == dataPredicitedHub$Prediction , ]
   write.table(dataPredicitedHub, 
-              file = paste0(as.character(chrName), "TruePositives.txt"),
+              file = paste0(as.character(cellLine), as.character(chrName), "TruePositives.txt"),
               sep = "\t", 
               row.names = FALSE, 
               quote = FALSE) 
@@ -97,7 +97,7 @@ visualizeWithGviz <- function (featureFile, chrName, chrIndex, startIndex, endIn
   dataPredicitedNonHub <- dataPredicted[dataPredicted[as.numeric(chrIndex)] == chrName & dataPredicted$Prediction=="Non-Hub", ]
   dataPredicitedNonHub <- dataPredicitedNonHub[dataPredicitedNonHub$Class == dataPredicitedNonHub$Prediction , ]
   write.table(dataPredicitedNonHub, 
-              file = paste0(as.character(chrName), "TrueNegatives.txt"),
+              file = paste0(as.character(cellLine), as.character(chrName), "TrueNegatives.txt"),
               sep = "\t", 
               row.names = FALSE, 
               quote = FALSE) 
