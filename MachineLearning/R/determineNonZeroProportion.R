@@ -1,19 +1,16 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: October 21st, 2020.
+## Last Reviewed: November 4th, 2020.
 ## Description: This function outputs (in rounded percentage) the proportion of rows in the data that are instances of non-zero values.
 ## Even if there is a single zero value in a row, that row will not be counted. The idea is to determine the sparsity in the data;
 ## sparse is a data set where most of the item values are zero. 
-## It takes two arguments. First is the path of the data file, and second is the columns to omit (if any).
-## The columns to omit must be provided as a list, combining multiple elements with a "c()".
+## It takes two arguments. First is a data file, and second is the columns to omit (if any). The 'dataFile' is allowed to be a physical
+## file (stored at a disk location), or an R object.
+## The columns to omit must be provided as a list, combining multiple elements with a "c()". Singlular column can be mentioned as a number.
 
-determineNonZeroProportion <- function(dataFilePath, columnsToOmit)
+determineNonZeroProportion <- function(dataFile, columnsToOmit)
 {
-  
-  if(file.exists(dataFilePath))
+  if(is.object(dataFile))
   {
-    # Read file
-    dataFile <- read.table(dataFilePath, header = TRUE)
-    
     # Refining Data | Removing irrelevant columns
     # Bypassing, if not 
     ifelse(missing(columnsToOmit), refinedDataFile <- dataFile, refinedDataFile <- dataFile[, -columnsToOmit])
@@ -23,8 +20,22 @@ determineNonZeroProportion <- function(dataFilePath, columnsToOmit)
     remainder <- refinedDataFile[corezero,]
     cat("The percentage of (perfect) non-zero rows in the data is", round((nrow(remainder)/nrow(refinedDataFile))*100), "%")
   }
-  else
-  {
-    return("File does not exist.")
-  }
+  else if(file.exists(dataFile))
+    {
+      # Read file
+      dataFile <- read.table(dataFile, header = TRUE)
+      
+      # Refining Data | Removing irrelevant columns
+      # Bypassing, if not 
+      ifelse(missing(columnsToOmit), refinedDataFile <- dataFile, refinedDataFile <- dataFile[, -columnsToOmit])
+      
+      # Calculating metric
+      corezero <- apply (refinedDataFile, 1, function(row) all(row!=0))
+      remainder <- refinedDataFile[corezero,]
+      cat("The percentage of (perfect) non-zero rows in the data is", round((nrow(remainder)/nrow(refinedDataFile))*100), "%")
+    }
+    else
+    {
+      return("File object does not exist.")
+    }
 }
