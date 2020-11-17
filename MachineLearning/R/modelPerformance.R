@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: September 26th, 2020.
+## Last Reviewed: November 17th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -27,9 +27,9 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
 ## Define categories of acceptable models.
 ## LR: Logistic Regression
 ## RF: Random Forests
-## NN: Neural Nets
+
   
-  modelCategories <- list("LR", "RF", "NN")
+  modelCategories <- list("LR", "RF")
   stopifnot(TRUE %in% grepl(modelCategory, modelCategories, ignore.case=TRUE))
   
 ## Model performance metrics
