@@ -1,5 +1,5 @@
 ## Author : Shaurya Jauhari
-## Last Reviewed: November 17th, 2020.
+## Last Reviewed: December 11th, 2020.
 ## Description: This function takes model, test-data, and test-data class (3 arguments) as input 
 ## and engenders a comprehensive set of 7 performance metrics, as below:
 ## (i) Confusion Matrix
@@ -20,9 +20,9 @@ modelPerformance <- function (model, modelCategory, testData, testDataClassColum
   newPackages <- requiredPackages[!(requiredPackages %in% installed.packages()[,"Package"])]
   if(length(newPackages)) install.packages(newPackages, dependencies = TRUE)
    
-  library(e1071)
-  library(caret)
-  library(ROCR)
+  suppressPackageStartupMessages(library(e1071))
+  suppressPackageStartupMessages(library(caret))
+  suppressPackageStartupMessages(library(ROCR))
 
 ## Define categories of acceptable models.
 ## LR: Logistic Regression
