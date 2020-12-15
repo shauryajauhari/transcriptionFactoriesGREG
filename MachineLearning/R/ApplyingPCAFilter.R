@@ -1,9 +1,15 @@
 # Install and Load Package
-install.packages(c("factoextra", "psych"), 
+
+requiredPackages <- c("factoextra", "psych")
+  newPackages <- requiredPackages[!(requiredPackages %in% installed.packages()[,"Package"])]
+   
+if(length(newPackages)) install.packages(newPackages, 
                  dependencies = TRUE, 
                  repos = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/")
 
 suppressPackageStartupMessages(library(factoextra))
+suppressPackageStartupMessages(library(psych))
+
 
 # Load Data
 a549data <- read.table("./data/A549forML.txt", header = TRUE)
@@ -31,7 +37,6 @@ fviz_pca_ind(pcaRun,
 )            
 
 
-suppressPackageStartupMessages(library(psych))            
 pairs.panels(dataOnly[,-13],
              gap = 0,
              bg = c("red", "green", "blue")[dataOnly$Class],
