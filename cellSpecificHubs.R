@@ -53,7 +53,7 @@ fig <- fig %>% layout(title = "Hub Frequencies in Cells",
                       xaxis = list(title = 'Cell'))
 fig
 
-##using ggplot2
+## Using ggplot2
 library(ggplot2)
 ggplot(forPlot, aes(x = c("A549", "H1ESC", "HeLa", "IMR90", "K562", "MCF7"),
                     y = as.numeric(freq))) +        
@@ -67,5 +67,28 @@ library(devtools)
 install_github("js229/Vennerable")
 library(Vennerable)
 
+## Plot
+
 myVenn <- Venn(fullData)
 plot(myVenn, doWeights = FALSE)
+
+
+## Counting bin interactions
+
+sourceBin <- vector(mode="list", length = length(subnetwork_per_LR))
+destinationBin <- vector(mode="list", length = length(subnetwork_per_LR))
+
+for(i in 1:length(subnetwork_per_LR))
+{
+  destinationBin[[i]] <- vector(mode = "list", length = length(subnetwork_per_LR[[i]]))
+  for(j in 1:length(subnetwork_per_LR[[i]]))
+  {
+    sourceBin[[i]][[j]] <- names(subnetwork_per_LR[[i]][j])
+    destinationBin[[i]][[j]] <- subnetwork_per_LR[[i]][[j]][[6]]
+  }
+}
+
+test <- data.frame(cbind(sourceBin[[1]]), cbind(destinationBin[[1]]))
+
+
+
