@@ -88,7 +88,38 @@ for(i in 1:length(subnetwork_per_LR))
   }
 }
 
-test <- data.frame(cbind(sourceBin[[1]]), cbind(destinationBin[[1]]))
+## clubbing all source and destination bins together
+
+masterFrame <- vector(mode="list", length = length(subnetwork_per_LR))
+
+for(i in 1:length(subnetwork_per_LR))
+  {
+    masterFrame[[i]] <- data.frame(cbind(sourceBin[[i]]), cbind(destinationBin[[i]]))
+}
+
+
+allBins <- do.call("rbind", masterFrame)
+names(allBins) <- c("SourceBin", "CorrespondingBins")
 
 
 
+## Counting Interactions in same chromosome and different chromosomes
+
+
+for(i in 1:nrow(allBins))
+{
+  ## define counter variables
+  sameCount <- 0
+  differentCount <- 0
+  
+  for(j in 1:length(allBins$CorrespondingBins[[i]])){
+    ifelse(gsub("\\:.*", "", allBins$SourceBin[[i]]) == 
+             gsub("\\:.*", "", allBins$CorrespondingBins[[i]][[j]]), 
+           sameCount <- sameCount + 1,
+           differentCount <- differentCount + 1)
+  }
+  ## assign new columns holding counts for each bin
+  
+  allBins$WithinChromosomeInteractions[[i]] <- sameCount
+  allBins$OutsideChromosomeInteractions[[i]] <- differentCount
+}
