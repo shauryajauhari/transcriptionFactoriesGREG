@@ -42,8 +42,17 @@ horiz = FALSE)
 forPlot <- data.frame(c("A549", "H1ESC", "HeLa", "IMR90", "K562", "MCF7"),
                        as.numeric(freq))  
 
+
+requiredPackage <- c("plotly", "ggplot2")
+newPackages <- requiredPackages[!(requiredPackages %in% installed.packages()[,"Package"])]
+if(length(newPackages)) install.packages(newPackages, 
+                                        dependencies = TRUE,
+                                        repos = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/")
+suppressPackageStartupMessages(library(plotly))
+suppressPackageStartupMessages(library(ggplot2))
+
 ## using Plotly
-library(plotly)
+
 fig <- plot_ly(x = c("A549", "H1ESC", "HeLa", "IMR90", "K562", "MCF7") ,                                  
         y = as.numeric(freq),
         type = "bar", color = I("orange"))
@@ -54,7 +63,7 @@ fig <- fig %>% layout(title = "Hub Frequencies in Cells",
 fig
 
 ## Using ggplot2
-library(ggplot2)
+
 ggplot(forPlot, aes(x = c("A549", "H1ESC", "HeLa", "IMR90", "K562", "MCF7"),
                     y = as.numeric(freq))) +        
   geom_bar(stat = "identity")
@@ -63,9 +72,11 @@ ggplot(forPlot, aes(x = c("A549", "H1ESC", "HeLa", "IMR90", "K562", "MCF7"),
 ## Creating a Venn Diagram
 ## Installing and Loading Packages
 
-library(devtools)
-install_github("js229/Vennerable")
-library(Vennerable)
+requiredPackage <- "Vennerable"
+newPackage <- requiredPackage[!(requiredPackages %in% installed.packages()[,"Package"])]
+if(length(newPackage)) install_github("js229/Vennerable")
+suppressPackageStartupMessages(library(Vennerable))
+
 
 ## Plot
 
@@ -105,10 +116,10 @@ names(allBins) <- c("SourceBin", "CorrespondingBins")
 
 ## Counting Interactions in same chromosome and different chromosomes
 
-
 for(i in 1:nrow(allBins))
 {
   ## define counter variables
+  ## refreshing values to zero for each new row
   sameCount <- 0
   differentCount <- 0
   
@@ -123,3 +134,16 @@ for(i in 1:nrow(allBins))
   allBins$WithinChromosomeInteractions[[i]] <- sameCount
   allBins$OutsideChromosomeInteractions[[i]] <- differentCount
 }
+
+## saving object
+
+saveRDS(object = allBins, file = "allBinsInteractionCount.rds")
+
+## stacked barplot for number of interactions per bin
+
+fig1 <- plot_ly(allBins, x = ~SourceBin, y = ~WithinChromosomeInteractions, 
+                type = 'bar', name = 'Within Chromosome Interactions')
+fig1 <- fig1 %>% add_trace(y = ~OutsideChromosomeInteractions, name = 'Outside Chromosome Interactions')
+fig1 <- fig1 %>% layout(yaxis = list(title = 'Frequency'), barmode = 'stack')
+
+fig1
