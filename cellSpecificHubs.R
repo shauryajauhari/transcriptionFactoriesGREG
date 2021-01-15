@@ -43,7 +43,7 @@ forPlot <- data.frame(c("A549", "H1ESC", "HeLa", "IMR90", "K562", "MCF7"),
                        as.numeric(freq))  
 
 
-requiredPackage <- c("plotly", "ggplot2")
+requiredPackages <- c("plotly", "ggplot2")
 newPackages <- requiredPackages[!(requiredPackages %in% installed.packages()[,"Package"])]
 if(length(newPackages)) install.packages(newPackages, 
                                         dependencies = TRUE,
